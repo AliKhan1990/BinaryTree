@@ -82,15 +82,15 @@ function BinaryTree() {
 
     //search node
 
-    var findNode = function(mode,node){
-        if(node && mode == "min"){
-            while(node && node.left !== null){
+    var findNode = function (mode, node) {
+        if (node && mode == "min") {
+            while (node && node.left !== null) {
                 node = node.left;
             }
             console.log(node.key);
             return node.key;
-        }else if(node && mode == "max"){
-            while(node && node.right !== null){
+        } else if (node && mode == "max") {
+            while (node && node.right !== null) {
                 node = node.right;
             }
             console.log(node.key);
@@ -101,27 +101,54 @@ function BinaryTree() {
     };
 
     this.min = function () {
-        return findNode('min',root)
+        return findNode('min', root)
     };
 
     this.max = function () {
-        return findNode('max',root)
+        return findNode('max', root)
     };
 
-    var searchNode = function(node,key){
-      if(node === null){
-          return false;
-      }else if(key < node.key){
-          return searchNode(node.left, key);
-      }else if(key > node.key){
-          return searchNode(node.right, key);
-      }else{
-          return true;
-      }
+    var searchNode = function (node, key) {
+        if (node === null) {
+            return false;
+        } else if (key < node.key) {
+            return searchNode(node.left, key);
+        } else if (key > node.key) {
+            return searchNode(node.right, key);
+        } else {
+            return true;
+        }
     };
 
     this.search = function (key) {
         return searchNode(root, key);
+    };
+
+    //Delete Node
+    var deleteNode = function (node, key) {
+        if (key < node.key) {
+            deleteNode(node.left, key);
+        } else if (key > node.key) {
+            deleteNode(node.right, key);
+        } else {
+            if (node.left === null && node.right === null) {
+                node = null;
+            }
+            if(node.left === null){
+                node = node.right;
+            }
+            if(node.right === null){
+                node = node.left;
+            }
+        }
+
+    };
+
+    this.delete = function (key) {
+        if(binariTree.search(key)){
+            console.log('Find');
+            deleteNode(root, key);
+        }
     }
 }
 
@@ -138,7 +165,7 @@ var print = function (key) {
 };
 
 /*-----------------
------注入--并启动-----
+ -----注入--并启动-----
  ------------------*/
 
 // binariTree.LDR(print);
@@ -146,4 +173,7 @@ var print = function (key) {
 // binariTree.RLD(print);
 // binariTree.min();
 // binariTree.max();
-console.log(binariTree.search(1000)? 'Have' : 'Not');
+// console.log(binariTree.search(1000) ? 'Have' : 'Not');
+binariTree.delete(10);
+binariTree.RLD(print);
+
